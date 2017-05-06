@@ -1,10 +1,3 @@
-
-# coding: utf-8
-
-# # Import Libraries
-
-# In[1]:
-
 import pandas as pd
 import numpy as np
 import pylab as pl
@@ -25,10 +18,6 @@ get_ipython().magic('matplotlib inline')
 
 
 # # Image Processing
-
-# In[72]:
-
-# example URL "C:/Users/pani/Desktop/Data Science/Night/Night_8.jpg"
 
 def image_rename (newName):
    
@@ -59,7 +48,7 @@ def img_to_color (pfad):
    i = 0
    color = 0
    
-   global color_avg    # Wieso bruache ich hier global wenn ich return habe?
+   global color_avg  
    color_avg = 1
    
    while i<matrix_flat.size:
@@ -71,16 +60,7 @@ def img_to_color (pfad):
    return color_avg
 
 
-# In[74]:
-
-image_rename("forest")
-
-
-# In[4]:
-
 def img_to_rgb (pfad):
-
-    # pfad = "C:/Users/pani/Desktop/Data Science/Night/Night_8.jpg"
 
     img = Image.open(pfad)
     img = img.resize((300,200))
@@ -116,16 +96,9 @@ def img_to_rgb (pfad):
     return([red, green, blue])
 
 
-# In[5]:
 
 img_to_rgb("C:/Users/pani/Desktop/Data Science/Night/Night_1.jpg")
 
-
-# # Return color vector of a folder
-
-# In[78]:
-
-# "C:/Users/pani/Desktop/Data Science/Day", "Day"
 
 def folder_to_matrix(pfad, nameDatei):
 
@@ -137,8 +110,7 @@ def folder_to_matrix(pfad, nameDatei):
         img_to_color(pfad + "/" + nameDatei + "_" + str(j) + ".jpg")
         trainingData.append(color_avg)
         j = j+1
-        
-    return trainingData
+        return trainingData
 
 def folder_to_rgb(pfad, nameDatei):
 
@@ -154,8 +126,6 @@ def folder_to_rgb(pfad, nameDatei):
         
         imagergb = img_to_rgb(pfad + "/" + nameDatei + "_" + str(j) + ".jpg")
         
-        
-        
         RGB.append(imagergb)
         
         j = j+1
@@ -164,10 +134,6 @@ def folder_to_rgb(pfad, nameDatei):
 
 
 # # Preparing Dataset
-
-# In[147]:
-
-# Preparing RGB Dataset
 
 night = folder_to_rgb("C:/Users/pani/Desktop/Data Science/Night", "Night")
 beach = folder_to_rgb("C:/Users/pani/Desktop/Data Science/beach", "beach")
@@ -182,8 +148,6 @@ x = x[0]
 print(len(x))
 print(len(y))
 
-
-# In[86]:
 
 # Preparing the brightness Dataset
 
@@ -203,18 +167,15 @@ x = x.reshape(-1,1)
 y = np.asarray(y)
 
 
-# # Train the Algorithm
-
-# In[215]:
+# Train
 
 from sklearn.neighbors import KNeighborsClassifier 
 Hellseher = KNeighborsClassifier(n_neighbors=15) 
 Hellseher.fit(x, y)
 
 
-# # Classify Images
 
-# In[210]:
+# Classify
 
 test = img_to_rgb("C:/Users/pani/Desktop/Data Science/test/test3.jpg")
 test = np.asarray(test)
@@ -222,35 +183,12 @@ test = test.reshape(1, -1)
 
 print(test)
 
-
-# In[211]:
-
 z = Hellseher.predict_proba(test)
-
-
-# In[214]:
 
 print("Wahrscheinlichkeit Nacht: " + str((z[0][0])*100)[:5] + " %")
 print("Wahrscheinlichkeit Strand: " + str((z[0][1])*100)[:5] + " %")
 print("Wahrscheinlichkeit Wald: " + str((z[0][2])*100)[:5] + " %")
 
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
 
 
 
